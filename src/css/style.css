@@ -22,6 +22,18 @@ nav {
     text-align: center;
 }
 
+/* SEARCH BAR */
+/* center the search bar */
+.search {
+    margin: auto;
+    overflow: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    font-size: 18px;
+}
+
 /* Style the search field */
 form.location,input[type=text] {
     padding: 2px;
