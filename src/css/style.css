@@ -1,0 +1,82 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+/* navbar*/
+nav {
+    background-color: rgb(65, 106, 126);
+}
+
+.logo {
+    width: 30px;
+    height: 30px;
+}
+
+/* header name */
+.header-name {
+    color: white;
+    position: relative;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+}
+
+/* Style the search field */
+form.location,input[type=text] {
+    padding: 2px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+    max-width: 500px; 
+}
+  
+/* Style the submit button */
+form.location,.searchButton {
+    float: left;
+    width: 20%;
+    padding: 2px;
+    background: rgb(6, 0, 31);
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
+}
+
+/* Change the button color when hover */  
+form.location,button:hover {
+    background: #96aec2;
+}
+  
+/* Clear floats */
+form.location::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+form.location {
+    width: 300px;
+}
+
+/* footer */
+footer {
+    background-color: rgb(218, 232, 236);
+}
+
+
+
+.header-img {
+    width: 100%;
+    height: 20rem;
+    background-image: url('/dash.jpg');
+    background-size: cover;
+    padding-top: 70px;
+}
+
+.header-name h1 {
+    font-family: 'Anton', sans-serif;
+}
