@@ -87,7 +87,7 @@ import './css/style.css'
     <form className="location">
       <label htmlFor="resort"></label>
       <input className="searchInput" id="resort" type="text" placeholder="Resort Name.." name="search" aria-label="resort name"></input>
-      <button class="searchButton" type="submit" aria-label="Search"><a class="fa fa-search"></a></button>
+      <button className="searchButton" type="submit" aria-label="Search"><a className="fa fa-search"></a></button>
     </form>
    )
  }
