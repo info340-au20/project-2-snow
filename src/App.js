@@ -10,8 +10,8 @@ import './css/style.css'
             <span className="navbar-toggler-icon"></span>
           </button>
           <a className="navbar-brand" href="index.html">
-            <img className="logo" src="img/logo.png" alt="Website Logo"></img> 
-            SkiUS
+            <img className="logo" src="logo.png" alt="Website Logo"></img> 
+            {' '}SkiUS
           </a>
           <NavOption />
         </nav>
@@ -25,18 +25,26 @@ import './css/style.css'
           <div className="search">
             <Search />
           </div> 
+
+          <div className="filter">
+            <Filter />
+          </div>
+
         </div>
-
-
       </header>
       
-      <main className="container">
-        <div className="row">
-          <div id="navs" className="col-3">
-          </div> 
-          <div id="petList" className="col-9">
-          </div> 
+      <main>
+        <div className="alert">
+        
         </div>
+          <div className="cards container">
+            <div className="cards row">
+
+            </div>
+          </div>
+          <br></br>
+          <br></br>
+          <br></br>
       </main>
 
       <footer className="page-footer font-small black pt-4">
@@ -79,7 +87,27 @@ import './css/style.css'
     <form className="location">
       <label htmlFor="resort"></label>
       <input className="searchInput" id="resort" type="text" placeholder="Resort Name.." name="search" aria-label="resort name"></input>
-      <button className="searchButton" type="submit" aria-label="Search"><a className="fa fa-search"></a></button>
+      <button className="searchButton fa fa-search" type="submit" aria-label="Search"></button>
+    </form>
+   )
+ }
+
+ function Filter() {
+   return (
+    <form>
+      <div className="outer">
+        <legend className="reminder">
+          Sort by your ski level:
+        </legend>
+        <div className="inner">
+          <label htmlFor="green"></label>
+          <input type="submit" className="greenButton" id="green" aria-label="Sort Green Percent" value="Green"></input>
+          <label htmlFor="blue"></label>
+          <input type="submit" className="blueButton" id="blue" aria-label="Sort Blue Percent" value="Blue"></input>
+          <label htmlFor="black"></label>
+          <input type="submit" className="blackButton" id="black" aria-label="Sort Black Percent" value="Black"></input>
+        </div>
+      </div> 
     </form>
    )
  }

@@ -62,17 +62,50 @@ form.location {
     width: 300px;
 }
 
+/* main */
+main {
+    background-color: whitesmoke;
+}
+
 /* footer */
 footer {
     background-color: rgb(218, 232, 236);
 }
 
+.outer
+{
+    width:100%;
+    text-align: center;
+}
+.inner
+{
+    display: inline-block;
+}
 
+.greenButton {
+    background: rgb(45, 88, 45);
+    color: white;
+}
+
+.blueButton {
+    background: rgb(21, 51, 90);
+    color: white;
+}
+
+.blackButton {
+    background: rgb(24, 23, 23);
+    color: white;
+}
+
+.reminder {
+    color: white;
+    font-size: 18px;
+}
 
 .header-img {
     width: 100%;
     height: 20rem;
-    background-image: url('/dash.jpg');
+    background-image: url("../img/dash.jpg");
     background-size: cover;
     padding-top: 70px;
 }
