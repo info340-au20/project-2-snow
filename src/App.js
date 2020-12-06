@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, NavLink} from 'react-router-dom';
 import CardList from './Card';
 import {csv} from 'd3';
 import datacsv from './resorts.csv';
+import { useLocation } from 'react-router-dom';
 
   function App() {
     const [resorts, setResorts] = useState([]);
@@ -59,13 +60,21 @@ import datacsv from './resorts.csv';
 
  export default App;
 
- function NavOption() {
+  function NavOption() {
+    const { pathname } = useLocation();
+
    return (
     <div className="collapse navbar-collapse navbarTogglerDemo03">
       <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/index.html" activeClassName={"activeLink active"}>Dashboard</NavLink>
+
+    	<li className='nav-item'> 
+        	<NavLink className="nav-link"
+            	to="/index.html" activeClassName={"activeLink active"}
+                isActive={() => ['/', '/index.html'].includes(pathname)} >
+                Dashboard 
+            </NavLink> 
         </li>
+
         <li className="nav-item">
           <NavLink className="nav-link" to="/about" activeClassName={"activeLink active"}>About</NavLink>
         </li>
