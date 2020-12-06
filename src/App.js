@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './css/style.css';
-import { BrowserRouter, Route, NavLink} from 'react-router-dom';
+import { BrowserRouter, Route, Switch, NavLink} from 'react-router-dom';
 import CardList from './Card';
 import {csv} from 'd3';
 import datacsv from './resorts.csv';
@@ -27,14 +27,15 @@ import datacsv from './resorts.csv';
           </a>
           <NavOption />
         </nav>
-
+        <Route exact path="/" component={MainPageHeader} />
         <Route path="/about" component={AboutPageHeader} />
-        <Route path="/index" component={MainPageHeader} />
+        <Route path="/index.html" component={MainPageHeader} />
       </header>
 
       <main>
+      <Route exact path="/" component={() => <Main resorts={resorts} />} />
       <Route path="/about" component={About} />
-      <Route path="/index" component={() => <Main resorts={resorts} />} />
+      <Route path="/index.html" component={() => <Main resorts={resorts} />} />
       </main>
 
       <footer className="page-footer font-small black pt-4">
@@ -63,7 +64,7 @@ import datacsv from './resorts.csv';
     <div className="collapse navbar-collapse navbarTogglerDemo03">
       <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
         <li className="nav-item">
-          <NavLink className="nav-link" to="/index" activeClassName={"activeLink active"}>Dashboard</NavLink>
+          <NavLink className="nav-link" to="/index.html" activeClassName={"activeLink active"}>Dashboard</NavLink>
         </li>
         <li className="nav-item">
           <NavLink className="nav-link" to="/about" activeClassName={"activeLink active"}>About</NavLink>
