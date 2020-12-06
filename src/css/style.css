@@ -36,6 +36,9 @@ nav {
     font-size: 18px;
 }
 
+.fa {
+    color: white;
+}
 
 /* Style the search field */
 form.location,input[type=text] {
@@ -166,7 +169,7 @@ footer {
 }
 
 .intro p {
-    font-family: 'Catamaran', sans-serif;
+    font-family: serif;
     font-size: 20px;
 }
 
