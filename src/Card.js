@@ -10,10 +10,33 @@ function Card({resort}) {
                         <div className="col-sm">
                             <h2 className="card-title">{resort.resort_name}</h2>
                             <div className="card-text">{resort.state}</div>
+                            <button className="bookmarkButton" type="button" aria-label="bookmark"><a className="fa fa-bookmark fa-lg"></a ></button>
                         </div>
                     </div>
                 </div>
-                <button type="button" href="#" className="'align-self-end btn btn-dark btn-block btn-primary card-button'">Detail</button>
+                <button type="button" href="#" className="align-self-end btn btn-dark btn-block btn-primary card-button">Detail</button>
+                <div className="back-card">
+                    <p className="category">
+                        Summit:{' '}
+                        <span className="answer">{resort.summit}</span>
+                    </p >
+                    <p className="category">
+                        Runs:{' '}
+                        <span className="answer">{resort.runs}</span>
+                    </p >
+                    <p className="category green">
+                        Green Percent:{' '}
+                        <span className="answer green">{resort.green_percent}</span>
+                    </p >
+                    <p className="category blue">
+                        Blue Percent:{' '}
+                        <span className="answer blue">{resort.blue_percent}</span>
+                    </p >
+                    <p className="category black">
+                        Black Percent:{' '}
+                        <span className="answer black">{resort.black_percent}</span>
+                    </p >
+                </div>
             </div>
         </div>
     )

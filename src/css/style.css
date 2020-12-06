@@ -37,8 +37,20 @@ nav {
     font-size: 18px;
 }
 
-.fa {
+/* font awesome */
+.fa-search {
     color: white;
+}
+
+.fa-bookmark {
+    color: rgb(138, 138, 211);
+}
+
+.bookmarkButton {
+    padding: 0;
+    border: none;
+    background: none;
+    
 }
 
 /* Style the search field */
@@ -66,7 +78,7 @@ form.location,.searchButton {
 }
 
 /* Change the button color when hover */  
-form.location,button:hover {
+form.location,.searchButton:hover {
     background: #96aec2;
 }
   

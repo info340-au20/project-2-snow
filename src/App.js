@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './css/style.css';
-import { BrowserRouter, Route, Switch, NavLink} from 'react-router-dom';
+import { BrowserRouter, Route, NavLink, useLocation} from 'react-router-dom';
 import CardList from './Card';
 import {csv} from 'd3';
 import datacsv from './resorts.csv';
-import { useLocation } from 'react-router-dom';
 
   function App() {
     const [resorts, setResorts] = useState([]);
@@ -12,6 +11,12 @@ import { useLocation } from 'react-router-dom';
     useEffect(() => {
       csv(datacsv).then(setResorts);
     }, []);
+
+    const search = (searchValue) => {
+      setResorts(resorts.filter(resortName =>
+        Object.values(resortName).includes(searchValue)
+      ));
+    }
 
    return (
     <BrowserRouter>
@@ -28,9 +33,9 @@ import { useLocation } from 'react-router-dom';
           </a>
           <NavOption />
         </nav>
-        <Route exact path="/" component={MainPageHeader} />
+        <Route exact path="/" component={() => <MainPageHeader search={search} />} />
         <Route path="/about" component={AboutPageHeader} />
-        <Route path="/index.html" component={MainPageHeader} />
+        <Route exact path="/index.html" component={() => <MainPageHeader search={search} />} />
       </header>
 
       <main>
@@ -83,15 +88,32 @@ import { useLocation } from 'react-router-dom';
    )
  }
 
- function Search() {
-   return (
-    <form className="location">
-      <label htmlFor="resort"></label>
-      <input className="searchInput" id="resort" type="text" placeholder="Resort Name.." name="search" aria-label="resort name"></input>
-      <button className="searchButton" type="submit" aria-label="Search"><a className="fa fa-search"></a></button>
-    </form>
-   )
- }
+  function Search({search}) {
+    const [searchValue, setSearchValue] = useState("");
+    const handleChange = event => {
+      setSearchValue(event.target.value)
+    };
+    const resetInputField = () => {
+      setSearchValue("")
+    }
+
+    const handleSearch = (event) => {
+      event.preventDefault();
+      search(searchValue);
+      resetInputField();
+    }
+
+    return (
+      <form className="location" onSubmit={handleSearch}>
+        <label htmlFor="resort"></label>
+        <input className="searchInput" id="resort" type="text" placeholder="Resort Name.." name="search" aria-label="resort name"
+          value={searchValue}
+          onChange={handleChange}>
+        </input>
+        <button className="searchButton" type="submit" aria-label="Search"><a className="fa fa-search"></a></button>
+      </form>
+    )
+  }
 
  function Filter() {
    return (
@@ -113,7 +135,7 @@ import { useLocation } from 'react-router-dom';
    )
  }
 
- function MainPageHeader() {
+ function MainPageHeader({search}) {
   return (
     <div className="header-img">
       <div className="header-name">
@@ -122,7 +144,7 @@ import { useLocation } from 'react-router-dom';
       <br></br>
 
       <div className="search">
-        <Search />
+        <Search search={search} />
       </div> 
 
       <div className="filter">
