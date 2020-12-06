@@ -160,9 +160,7 @@ function Main({resorts}) {
   <div>
     <br></br>
     <div className="cards container">
-      <div className="cards row">
-        <CardList resorts={resorts}/>
-      </div>
+      <CardList resorts={resorts}/>
     </div>
     <br></br>
   </div>
