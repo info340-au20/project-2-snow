@@ -20,14 +20,6 @@ export default function App() {
     csv(datacsv).then(setResorts);
   }, []);
 
-
-  const search = (searchValue) => {
-    let data = resorts.filter(resortName =>
-      Object.values(resortName).includes(searchValue)
-    )
-    setResorts(data);
-  }
-
   return (
     <div className="structure">
       <header>
@@ -41,9 +33,9 @@ export default function App() {
           </a>
           <NavOption />
         </nav>
-        <Route exact path="/" component={() => <MainPageHeader search={search} resorts={resorts} setResorts={setResorts} />} />
+        <Route exact path="/" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} />} />
         <Route path="/about" component={AboutPageHeader} />
-        <Route exact path="/index.html" component={() => <MainPageHeader search={search} resorts={resorts} setResorts={setResorts} />} />
+        <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} />} />
       </header>
 
       <main>
@@ -78,7 +70,7 @@ function NavOption() {
   )
 }
 
-function MainPageHeader({search, resorts, setResorts}) {
+function MainPageHeader({resorts, setResorts}) {
   return (
     <div className="header-img">
       <div className="header-name">
@@ -87,7 +79,7 @@ function MainPageHeader({search, resorts, setResorts}) {
       <br></br>
 
       <div className="search">
-        <Search search={search}/>
+        <Search resorts={resorts} setResorts={setResorts}/>
       </div> 
 
       <div className="filter">
@@ -113,23 +105,29 @@ function Main({resorts}) {
 }
 
 function AlertMessage({boolean}) {
-  console.log(boolean);
-    return (
-      <div>
-        {boolean
-          ? <h3 className="text-center alert alert-danger">"Cannot find search results! Case sensitive and check spelling."</h3>
-          : <h3>{' '}</h3>
-        }
-      </div>
-    )
+  return (
+    <div>
+      {boolean
+        ? <h3 className="text-center alert alert-danger">"Cannot find search results! Case sensitive and check spelling."</h3>
+        : <h3>{' '}</h3>
+      }
+    </div>
+  )
 }
 
-function Search({search}) {
+function Search({resorts, setResorts}) {
   const [searchValue, setSearchValue] = useState("");
 
   const handleChange = event => {
     setSearchValue(event.target.value)
   };
+
+  const search = (searchValue) => {
+    let data = resorts.filter(resortName =>
+      Object.values(resortName).includes(searchValue)
+    )
+    setResorts(data);
+  }
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -170,7 +168,7 @@ function Filter({resorts, setResorts}) {
     event.preventDefault();
     blackCallBack();
   }
-   return (
+  return (
     <form>
       <div className="outer">
         <legend className="reminder">
@@ -179,7 +177,7 @@ function Filter({resorts, setResorts}) {
         <div className="inner">
           <label htmlFor="green"></label>
           <input type="submit" className="greenButton" id="green" aria-label="Sort Green Percent" value="Green"
-                 onClick={handleGreen}>
+                  onClick={handleGreen}>
           </input>
           <label htmlFor="blue"></label>
           <input type="submit" className="blueButton" id="blue" aria-label="Sort Blue Percent" value="Blue"
@@ -192,6 +190,6 @@ function Filter({resorts, setResorts}) {
         </div>
       </div> 
     </form>
-   )
+  )
  }
 
