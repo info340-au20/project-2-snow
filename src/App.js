@@ -1,28 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import './css/style.css';
-import { BrowserRouter, Route, NavLink, useLocation} from 'react-router-dom';
-import CardList from './Card';
-import {csv} from 'd3';
+import { Route, NavLink, useLocation} from 'react-router-dom';
+import { csv } from 'd3';
+// data
 import datacsv from './resorts.csv';
+// style
+import './css/style.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+// components
+import CardList from './components/Card';
+import { About, AboutPageHeader } from './components/About';
+import Footer from './components/Footer'
 
-  function App() {
-    const [resorts, setResorts] = useState([]);
 
-    useEffect(() => {
-      csv(datacsv).then(setResorts);
-    }, []);
+export default function App() {
+  const [resorts, setResorts] = useState([]);
 
-    const search = (searchValue) => {
-      setResorts(resorts.filter(resortName =>
-        Object.values(resortName).includes(searchValue)
-      ));
-    }
+  useEffect(() => {
+    csv(datacsv).then(setResorts);
+  }, []);
 
-   return (
-    <BrowserRouter>
+
+  const search = (searchValue) => {
+    let data = resorts.filter(resortName =>
+      Object.values(resortName).includes(searchValue)
+    )
+    setResorts(data);
+  }
+
+  return (
     <div className="structure">
       <header>
-
         <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
@@ -33,109 +41,44 @@ import datacsv from './resorts.csv';
           </a>
           <NavOption />
         </nav>
-        <Route exact path="/" component={() => <MainPageHeader search={search} />} />
+        <Route exact path="/" component={() => <MainPageHeader search={search} resorts={resorts} setResorts={setResorts} />} />
         <Route path="/about" component={AboutPageHeader} />
-        <Route exact path="/index.html" component={() => <MainPageHeader search={search} />} />
+        <Route exact path="/index.html" component={() => <MainPageHeader search={search} resorts={resorts} setResorts={setResorts} />} />
       </header>
 
       <main>
-      <Route exact path="/" component={() => <Main resorts={resorts} />} />
-      <Route path="/about" component={About} />
-      <Route path="/index.html" component={() => <Main resorts={resorts} />} />
+        <Route exact path="/" component={() => <Main resorts={resorts} />} />
+        <Route path="/about" component={About} />
+        <Route path="/index.html" component={() => <Main resorts={resorts} />} />
       </main>
 
-      <footer className="page-footer font-small black pt-4">
-        <div className="container-fluid text-center text-md-center">
-          <p className="text-uppercase">Developers:</p>
-          <p>Yilin Chen · Class of 2023 (<a href="mailto:ychen023@uw.edu">ychen023@uw.edu</a>)</p>
-          <p>Sunny Zheng · Class of 2023 (<a href="mailto:sunnyzyr@uw.edu">sunnyzyr@uw.edu</a>)</p>
-        </div>
-        <div className="footer-copyright text-center py-3">
-          <p>INFO340: Client Side Development ·&nbsp;
-            <span><a href="https://github.com/info340-au20/project-1-snow.git" aria-label="Github Repository Link">GitHub</a></span>
-            <span>·&nbsp; &copy; Yilin Chen & Sunny Zheng</span>
-            · Header photos from <a href="https://unsplash.com/" aria-label="Unsplash website Link">Unsplash</a>
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
-    </BrowserRouter>
   );
 }
 
- export default App;
+function NavOption() {
+  const { pathname } = useLocation();
 
-  function NavOption() {
-    const { pathname } = useLocation();
-
-   return (
+  return (
     <div className="collapse navbar-collapse navbarTogglerDemo03">
       <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-
-    	<li className='nav-item'> 
-        	<NavLink className="nav-link"
-            	to="/index.html" activeClassName={"activeLink active"}
+        <li className='nav-item'> 
+          <NavLink className="nav-link"
+              to="/index.html" activeClassName={"activeLink active"}
                 isActive={() => ['/', '/index.html'].includes(pathname)} >
                 Dashboard 
-            </NavLink> 
+          </NavLink> 
         </li>
-
         <li className="nav-item">
           <NavLink className="nav-link" to="/about" activeClassName={"activeLink active"}>About</NavLink>
         </li>
       </ul>
     </div>
-   )
- }
+  )
+}
 
-  function Search({search}) {
-    const [searchValue, setSearchValue] = useState("");
-    const handleChange = event => {
-      setSearchValue(event.target.value)
-    };
-    const resetInputField = () => {
-      setSearchValue("")
-    }
-
-    const handleSearch = (event) => {
-      event.preventDefault();
-      search(searchValue);
-      resetInputField();
-    }
-
-    return (
-      <form className="location" onSubmit={handleSearch}>
-        <label htmlFor="resort"></label>
-        <input className="searchInput" id="resort" type="text" placeholder="Resort Name.." name="search" aria-label="resort name"
-          value={searchValue}
-          onChange={handleChange}>
-        </input>
-        <button className="searchButton" type="submit" aria-label="Search"><a className="fa fa-search"></a></button>
-      </form>
-    )
-  }
-
- function Filter() {
-   return (
-    <form>
-      <div className="outer">
-        <legend className="reminder">
-          Sort by your ski level:
-        </legend>
-        <div className="inner">
-          <label htmlFor="green"></label>
-          <input type="submit" className="greenButton" id="green" aria-label="Sort Green Percent" value="Green"></input>
-          <label htmlFor="blue"></label>
-          <input type="submit" className="blueButton" id="blue" aria-label="Sort Blue Percent" value="Blue"></input>
-          <label htmlFor="black"></label>
-          <input type="submit" className="blackButton" id="black" aria-label="Sort Black Percent" value="Black"></input>
-        </div>
-      </div> 
-    </form>
-   )
- }
-
- function MainPageHeader({search}) {
+function MainPageHeader({search, resorts, setResorts}) {
   return (
     <div className="header-img">
       <div className="header-name">
@@ -144,77 +87,111 @@ import datacsv from './resorts.csv';
       <br></br>
 
       <div className="search">
-        <Search search={search} />
+        <Search search={search}/>
       </div> 
 
       <div className="filter">
-        <Filter />
+        <Filter resorts={resorts} setResorts={setResorts}/>
       </div>
-
     </div>
   )
 }
 
 function Main({resorts}) {
-  return (
-  <div>
-    <br></br>
-    <div className="cards container">
-      <CardList resorts={resorts}/>
-    </div>
-    <br></br>
-  </div>
-  )
-}
+  let boolean = resorts.length === 0;
 
-function AboutPageHeader() {
   return (
-    <div className="header-img">
-      <div className="header-name">
-        <h1>About US</h1>
+    <div>
+      <br></br>
+      <div className="cards container">
+        <AlertMessage boolean={boolean} />
+        <CardList resorts={resorts} />
       </div>
       <br></br>
     </div>
   )
 }
 
-function About() {
-  return (
-    <main>
-    <section className="about">
-      <br></br>
-      <div className="intro">
-        <h2>The problem we are trying to solve!</h2>
-        <p>During the 2019-2020 season, the U.S had about 51.1 million snow sports visits in
-          total. The demand for ski-related information is tremendous. Unlike other sports,
-          snow-related sports highly depend on weather conditions, locations, and trail
-          difficulty. Get data from different ski resorts would be crucial for people
-          to decide which one would be their best destination, considering both safety and
-          moderation factors. 
-        </p>
-        <p>
-          Since there are so many ski resorts that the skiers and snowboarders can choose
-          from, each snow trail's data is very scattered. People need to go to various snow
-          resort websites to obtain relevant information, which is a waste of time and
-          difficult to compare. 
-        </p>
-        <h2>How can SkiUS help skiers?</h2>
-        <p>
-          Our app mainly serves skiers and snowboarders looking for inspiration for their next destination 
-          or just checking resort conditions before their trip regardless of skill levels. 
-          Users could look for various ski resorts in the Washington State from our website, including 
-          the basic information of specific ski resorts, lift numbers and runs difficulties. 
-        </p>
-        <p>Using a single app designed by our team, users will never need to check different 
-          official websites for information regarding ski resorts. Confusions through 
-          the searching process will be reduced. Users can find inspirations and be able to 
-          find the ski destination that best fits their needs.
-        </p>
-        <h2>Who are we?</h2>
-        <p>We are two students from the University of Washington who aim to help skiers find inspirations for their next ski destination.</p>
+function AlertMessage({boolean}) {
+  console.log(boolean);
+    return (
+      <div>
+        {boolean
+          ? <h3 className="text-center alert alert-danger">"Cannot find search results! Case sensitive and check spelling."</h3>
+          : <h3>{' '}</h3>
+        }
       </div>
-    </section>
-    <br></br>
-  </main>
+    )
+}
+
+function Search({search}) {
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleChange = event => {
+    setSearchValue(event.target.value)
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    search(searchValue);
+  }
+
+  return (
+    <form className="location" onSubmit={handleSearch}>
+      <label htmlFor="resort"></label>
+      <input className="searchInput" id="resort" type="text" placeholder="Resort Name.." name="search" aria-label="resort name"
+        value={searchValue}
+        onChange={handleChange}>
+      </input>
+      <button className="searchButton" type="submit" aria-label="Search"><FontAwesomeIcon icon={faSearch} /></button>
+    </form>
   )
 }
+
+function Filter({resorts, setResorts}) {
+  const greenCallBack = () => {
+    setResorts([...resorts].sort((a, b) => ((a.acres * a.green_percent) < (b.acres * b.green_percent)) ? 1 : -1));
+  };
+  const blueCallBack = () => {
+    setResorts([...resorts].sort((a, b) => ((a.acres * a.blue_percent) < (b.acres * b.blue_percent)) ? 1 : -1));
+  };  
+  const blackCallBack = () => {
+    setResorts([...resorts].sort((a, b) => ((a.acres * a.black_percent) < (b.acres * b.black_percent)) ? 1 : -1));
+  };
+  const handleGreen = (event) => {
+    event.preventDefault();
+    greenCallBack();
+  }
+  const handleBlue = (event) => {
+    event.preventDefault();
+    blueCallBack();
+  }
+  const handleBlack = (event) => {
+    event.preventDefault();
+    blackCallBack();
+  }
+   return (
+    <form>
+      <div className="outer">
+        <legend className="reminder">
+          Sort by your ski level:
+        </legend>
+        <div className="inner">
+          <label htmlFor="green"></label>
+          <input type="submit" className="greenButton" id="green" aria-label="Sort Green Percent" value="Green"
+                 onClick={handleGreen}>
+          </input>
+          <label htmlFor="blue"></label>
+          <input type="submit" className="blueButton" id="blue" aria-label="Sort Blue Percent" value="Blue"
+                  onClick={handleBlue}>
+          </input>
+          <label htmlFor="black"></label>
+          <input type="submit" className="blackButton" id="black" aria-label="Sort Black Percent" value="Black"
+                  onClick={handleBlack}>
+          </input>
+        </div>
+      </div> 
+    </form>
+   )
+ }
+

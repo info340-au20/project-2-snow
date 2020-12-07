@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBookmark } from '@fortawesome/free-solid-svg-icons'
+
 function Card({resort}) {
     return (
         <div className="column col-md-6 col-xl-3 d-flex">
@@ -10,11 +13,11 @@ function Card({resort}) {
                         <div className="col-sm">
                             <h2 className="card-title">{resort.resort_name}</h2>
                             <div className="card-text">{resort.state}</div>
-                            <button className="bookmarkButton" type="button" aria-label="bookmark"><a className="fa fa-bookmark fa-lg"></a ></button>
+                            <button className="bookmarkButton" type="button" aria-label="bookmark"><FontAwesomeIcon icon={faBookmark} /></button>
                         </div>
                     </div>
                 </div>
-                <button type="button" href="#" className="align-self-end btn btn-dark btn-block btn-primary card-button">Detail</button>
+                <button type="button" className="align-self-end btn btn-dark btn-block btn-primary card-button">Detail</button>
                 <div className="back-card">
                     <p className="category">
                         Summit:{' '}
@@ -52,6 +55,4 @@ export default function CardList({resorts}) {
             {cards}
         </div>
     )
-    
-    
 }
