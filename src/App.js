@@ -15,9 +15,15 @@ import Footer from './components/Footer'
 
 export default function App() {
   const [resorts, setResorts] = useState([]);
+  const [store, setStore] = useState([]);
 
   useEffect(() => {
     csv(datacsv).then(setResorts);
+  }, []);
+
+
+  useEffect(() => {
+     csv(datacsv).then(setStore);
   }, []);
 
   return (
@@ -33,9 +39,9 @@ export default function App() {
           </a>
           <NavOption />
         </nav>
-        <Route exact path="/" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} />} />
+        <Route exact path="/" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
         <Route path="/about" component={AboutPageHeader} />
-        <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} />} />
+        <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store} />} />
       </header>
 
       <main>
@@ -70,7 +76,7 @@ function NavOption() {
   )
 }
 
-function MainPageHeader({resorts, setResorts}) {
+function MainPageHeader({resorts, setResorts, store}) {
   return (
     <div className="header-img">
       <div className="header-name">
@@ -79,7 +85,7 @@ function MainPageHeader({resorts, setResorts}) {
       <br></br>
 
       <div className="search">
-        <Search resorts={resorts} setResorts={setResorts}/>
+        <Search resorts={resorts} setResorts={setResorts} store={store} />
       </div> 
 
       <div className="filter">
@@ -108,14 +114,14 @@ function AlertMessage({boolean}) {
   return (
     <div>
       {boolean
-        ? <h3 className="text-center alert alert-danger">"Cannot find search results! Case sensitive and check spelling."</h3>
+        ? <h3 className="text-center alert alert-danger">"Cannot find search results! Check spelling."</h3>
         : <h3>{' '}</h3>
       }
     </div>
   )
 }
 
-function Search({resorts, setResorts}) {
+function Search({resorts, setResorts, store}) {
   const [searchValue, setSearchValue] = useState("");
 
   const handleChange = event => {
@@ -124,13 +130,14 @@ function Search({resorts, setResorts}) {
 
   const search = (searchValue) => {
     let data = resorts.filter(resortName =>
-      Object.values(resortName).includes(searchValue)
+      resortName.resort_name.toLowerCase().includes(searchValue.toLowerCase())
     )
     setResorts(data);
   }
 
   const handleSearch = (event) => {
     event.preventDefault();
+    resorts = store;
     search(searchValue);
   }
 
