@@ -7,15 +7,36 @@ import datacsv from './resorts.csv';
 import './css/style.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+// firebase
+import firebase from 'firebase/app';
+import 'firebase/auth';
 // components
 import CardList from './components/Card';
 import { About, AboutPageHeader } from './components/About';
+import { SignIn, SignInPageHeader } from './components/SignIn';
 import Footer from './components/Footer'
 
 
 export default function App() {
   const [resorts, setResorts] = useState([]);
   const [store, setStore] = useState([]);
+  const [user, setUser] = useState(undefined);
+
+  // auth state event listener
+  useEffect(() => { // run after component loads
+    // listen for changes to the authstate (logged in or not)
+    const authUnregisterFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser);
+      } else { // not defined
+        setUser(null);
+      }
+    })
+
+    return function cleanup() { //what to do when done loading
+      authUnregisterFunction()
+    }
+  }, []) //only run hook on first load
 
   useEffect(() => {
     csv(datacsv).then(setResorts);
@@ -41,13 +62,15 @@ export default function App() {
         </nav>
         <Route exact path="/" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
         <Route path="/about" component={AboutPageHeader} />
-        <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store} />} />
+        <Route path="/signIn" component={SignInPageHeader} />
+        <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
       </header>
 
       <main>
-        <Route exact path="/" component={() => <Main resorts={resorts} />} />
+        <Route exact path="/" component={() => <Main resorts={resorts} user={user}/>} />
         <Route path="/about" component={About} />
-        <Route path="/index.html" component={() => <Main resorts={resorts} />} />
+        <Route path="/signIn" component={SignIn} user={user} />
+        <Route path="/index.html" component={() => <Main resorts={resorts} user={user}/>} />
       </main>
 
       <Footer />
@@ -70,6 +93,9 @@ function NavOption() {
         </li>
         <li className="nav-item">
           <NavLink className="nav-link" to="/about" activeClassName={"activeLink active"}>About</NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/signIn" activeClassName={"activeLink active"}>Sign In</NavLink>
         </li>
       </ul>
     </div>

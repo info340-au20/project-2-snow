@@ -11,7 +11,7 @@ export function AboutPageHeader() {
 
 export function About() {
     return (
-        <main>
+        <div>
             <section className="about">
                 <br></br>
                 <div className="intro">
@@ -46,6 +46,6 @@ export function About() {
                 </div>
             </section>
             <br></br>
-        </main>
+        </div>
     )
 }
