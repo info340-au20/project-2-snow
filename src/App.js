@@ -21,6 +21,7 @@ export default function App() {
   const [resorts, setResorts] = useState([]);
   const [store, setStore] = useState([]);
   const [user, setUser] = useState(undefined);
+  
 
   // auth state event listener
   useEffect(() => { // run after component loads
@@ -47,6 +48,8 @@ export default function App() {
      csv(datacsv).then(setStore);
   }, []);
 
+  
+
   return (
     <div className="structure">
       <header>
@@ -62,15 +65,15 @@ export default function App() {
         </nav>
         <Route exact path="/" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
         <Route path="/about" component={AboutPageHeader} />
-        <Route path="/signIn" component={SignInPageHeader} />
+        <Route path="/signIn" component={() => <SignInPageHeader user={user}/>} />
         <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
       </header>
 
       <main>
-        <Route exact path="/" component={() => <Main resorts={resorts} user={user}/>} />
+        <Route exact path="/" component={() => <Main resorts={resorts} user={user} />} />
         <Route path="/about" component={About} />
-        <Route path="/signIn" component={SignIn} user={user} />
-        <Route path="/index.html" component={() => <Main resorts={resorts} user={user}/>} />
+        <Route path="/signIn" component={() => <SignIn user={user} resorts={resorts} />} />
+        <Route path="/index.html" component={() => <Main resorts={resorts} user={user} />} />
       </main>
 
       <Footer />
@@ -95,7 +98,7 @@ function NavOption() {
           <NavLink className="nav-link" to="/about" activeClassName={"activeLink active"}>About</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/signIn" activeClassName={"activeLink active"}>Sign In</NavLink>
+          <NavLink className="nav-link" to="/signIn" activeClassName={"activeLink active"}>Profile</NavLink>
         </li>
       </ul>
     </div>
@@ -121,7 +124,7 @@ function MainPageHeader({resorts, setResorts, store}) {
   )
 }
 
-function Main({resorts}) {
+function Main({resorts, user}) {
   let boolean = resorts.length === 0;
 
   return (
@@ -129,7 +132,7 @@ function Main({resorts}) {
       <br></br>
       <div className="cards container">
         <AlertMessage boolean={boolean} />
-        <CardList resorts={resorts} />
+        <CardList resorts={resorts} user={user}/>
       </div>
       <br></br>
     </div>
@@ -205,19 +208,19 @@ function Filter({resorts, setResorts}) {
     <form>
       <div className="outer">
         <legend className="reminder">
-          Sort by your ski level:
+          Sort by your ski level (acres high to low):
         </legend>
         <div className="inner">
           <label htmlFor="green"></label>
-          <input type="submit" className="greenButton" id="green" aria-label="Sort Green Percent" value="Green"
+          <input type="submit" className="greenButton" id="green" aria-label="Sort Green Percent" value="New"
                   onClick={handleGreen}>
           </input>
           <label htmlFor="blue"></label>
-          <input type="submit" className="blueButton" id="blue" aria-label="Sort Blue Percent" value="Blue"
+          <input type="submit" className="blueButton" id="blue" aria-label="Sort Blue Percent" value="Intermediate"
                   onClick={handleBlue}>
           </input>
           <label htmlFor="black"></label>
-          <input type="submit" className="blackButton" id="black" aria-label="Sort Black Percent" value="Black"
+          <input type="submit" className="blackButton" id="black" aria-label="Sort Black Percent" value="Expert"
                   onClick={handleBlack}>
           </input>
         </div>

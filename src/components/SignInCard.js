@@ -1,31 +1,13 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark } from '@fortawesome/free-solid-svg-icons'
-
+import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/app';
-//import React, { useEffect } from 'react';
+import 'firebase/auth';
 import { Collapse, Button, CardBody, Card } from 'reactstrap'
-import React, { useState } from 'react';
 
-function ResortCard({resort, user}) {
+function CardBookmark({resort}) {
     const [isOpen, setIsOpen] = useState(false);
     const handleToggle = () => {
         setIsOpen(!isOpen);
     }
-
-    let content = null;
-    const handleBookmark = () => {
-        if (!user) {
-            console.log("is not logged in");
-            content = (
-                <h3>you have to sign in</h3>
-            );
-        } else {
-            // reference into the database
-            const userRef = firebase.database().ref(user.uid);
-            userRef.push(resort);
-        }
-    }
-    
 
     return (
         <div className="column col-md-6 col-xl-3">
@@ -38,8 +20,7 @@ function ResortCard({resort, user}) {
                         <div className="col-sm">
                             <dt className="card-text">{resort.resort_name}</dt>
                             <div className="card-text">{resort.state}</div>
-                            <button className="bookmarkButton" type="button" aria-label="bookmark" onClick={handleBookmark}><FontAwesomeIcon icon={faBookmark} /></button>
-                            {content}
+                            <button className="btn btn-secondary">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -76,9 +57,33 @@ function ResortCard({resort, user}) {
     )
 }
 
-export default function CardList({resorts, user}) {
-    let cards = resorts.map((resort) => {
-        return <ResortCard resort={resort} key={resort.resort_name} user={user} />
+export default function CardListBookMark({user}) {
+    const [bookmarked, setBookmarked] = useState([]);
+    let userID = user.uid;
+    useEffect(() => {
+        let isMounted = true;
+        const userRef = firebase.database().ref(userID);// like the url
+        userRef.on('value', (snapshot) => {
+          const theResortsObj = snapshot.val(); // convert into a JS value
+          // have an object (with keys)
+          // need an array
+          let objectKeysArray = Object.keys(theResortsObj)
+          let resortsArray = objectKeysArray.map((key) => {
+            let singleChirpObj = theResortsObj[key]
+            singleChirpObj.key = key
+            return singleChirpObj
+          })
+          if (isMounted) {
+            setBookmarked(resortsArray);
+          }
+        })
+        return () => { isMounted = false }; 
+      }, [])
+    
+    if(bookmarked.length === 0) return null;
+
+    let cards = bookmarked.map((resort) => {
+        return <CardBookmark resort={resort} key={resort.resort_name}/>
     })
 
     return (

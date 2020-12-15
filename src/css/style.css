@@ -186,6 +186,17 @@ footer {
     font-size: 20px;
 }
 
+/* Sign In Page */
+.logout {
+    margin: auto;
+    overflow: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+
 /* Media Control */ 
 @media (min-width: 320px)
 {

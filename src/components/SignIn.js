@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import CardListBookMark from './SignInCard'
 
 
 export function SignInPageHeader({ user }) {
@@ -43,13 +44,12 @@ export function SignInPageHeader({ user }) {
         );
     } else { //if logged in, show welcome message
         content = (
-          <div>
+          <div className="logout">
             {user &&
-                <button className="btn btn-warning" onClick={handleSignOut}>
-                  Log Out {user.displayName}
+                <button className="btn btn-info" onClick={handleSignOut}>
+                  Log Out As {user.displayName}
                 </button>
             }
-            <h2>happy</h2>
           </div>
         );
     }
@@ -71,11 +71,31 @@ export function SignInPageHeader({ user }) {
     )
   }
 
-export function SignIn() {
+export function SignIn({ user }) {
+    let content = null;
 
+    if (!user) { //if logged out, show signup form
+        content = (
+          <div className="container">
+            <div>you have to sign in</div>
+          </div>
+        );
+    } else { //if logged in, show welcome message
+        content = (
+                <div>
+                    <br></br>
+                    <h2 className="logout">Bookmarked Resorts</h2>
+                    <br></br>
+                    <div className="cards container">
+                    <CardListBookMark user={user}/>
+                    </div>
+                    <br></br>
+                </div>
+        );
+    }
     return (
         <div>
-            <h2>cards</h2>
+            {content}
         </div>
     )
 }
