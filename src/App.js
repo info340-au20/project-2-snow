@@ -21,6 +21,7 @@ export default function App() {
   const [resorts, setResorts] = useState([]);
   const [store, setStore] = useState([]);
   const [user, setUser] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   
 
   // auth state event listener
@@ -29,8 +30,10 @@ export default function App() {
     const authUnregisterFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
+        setIsLoading(false);
       } else { // not defined
         setUser(null);
+        setIsLoading(false);
       }
     })
 
@@ -68,13 +71,14 @@ export default function App() {
         <Route path="/signIn" component={() => <SignInPageHeader user={user}/>} />
         <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
       </header>
-
+      
       <main>
-        <Route exact path="/" component={() => <Main resorts={resorts} user={user} />} />
+        <Route exact path="/" component={() => <Main resorts={resorts} user={user} isLoading={isLoading} setIsLoading={setIsLoading} />} />
         <Route path="/about" component={About} />
         <Route path="/signIn" component={() => <SignIn user={user} resorts={resorts} />} />
-        <Route path="/index.html" component={() => <Main resorts={resorts} user={user} />} />
+        <Route path="/index.html" component={() => <Main resorts={resorts} user={user} isLoading={isLoading} setIsLoading={setIsLoading} />} />
       </main>
+
 
       <Footer />
     </div>
@@ -124,25 +128,32 @@ function MainPageHeader({resorts, setResorts, store}) {
   )
 }
 
-function Main({resorts, user}) {
-  let boolean = resorts.length === 0;
+function Main({resorts, user, isLoading}) {
+  let alert = resorts.length === 0;
 
   return (
     <div>
       <br></br>
       <div className="cards container">
-        <AlertMessage boolean={boolean} />
-        <CardList resorts={resorts} user={user}/>
+        <AlertMessage alert={alert} isLoading={isLoading} />
+        <CardList resorts={resorts} user={user} />
       </div>
       <br></br>
     </div>
   )
 }
 
-function AlertMessage({boolean}) {
+function AlertMessage({alert, isLoading}) {
+  if(isLoading) {
+    return(
+      <div className="text-center">
+        <i className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></i>
+      </div>
+    )
+  }
   return (
     <div>
-      {boolean
+      {alert
         ? <h3 className="text-center alert alert-danger">"Cannot find search results! Check spelling."</h3>
         : <h3>{' '}</h3>
       }

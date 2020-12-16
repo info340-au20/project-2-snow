@@ -74,25 +74,20 @@ export function SignInPageHeader({ user }) {
 export function SignIn({ user }) {
     let content = null;
 
-    if (!user) { //if logged out, show signup form
+    if (user) { //if logged out, show signup form
         content = (
-          <div className="container">
-            <div>you have to sign in</div>
-          </div>
-        );
-    } else { //if logged in, show welcome message
-        content = (
-                <div>
-                    <br></br>
-                    <h2 className="logout">Bookmarked Resorts</h2>
-                    <br></br>
-                    <div className="cards container">
-                    <CardListBookMark user={user}/>
-                    </div>
-                    <br></br>
+            <div>
+                <br></br>
+                <h2 className="logout">Bookmarked Resorts</h2>
+                <br></br>
+                <div className="cards container">
+                <CardListBookMark user={user}/>
                 </div>
+                <br></br>
+            </div>
         );
     }
+    
     return (
         <div>
             {content}

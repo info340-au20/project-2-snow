@@ -3,10 +3,15 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { Collapse, Button, CardBody, Card } from 'reactstrap'
 
-function CardBookmark({resort}) {
+function CardBookmark({resort, user}) {
     const [isOpen, setIsOpen] = useState(false);
     const handleToggle = () => {
         setIsOpen(!isOpen);
+    }
+    const handleRemove = () => {
+        let resortKey = resort.key;
+        let userRef = firebase.database().ref(user.uid).child(resortKey);
+        userRef.remove();
     }
 
     return (
@@ -20,7 +25,7 @@ function CardBookmark({resort}) {
                         <div className="col-sm">
                             <dt className="card-text">{resort.resort_name}</dt>
                             <div className="card-text">{resort.state}</div>
-                            <button className="btn btn-secondary">Remove</button>
+                            <button className="btn btn-secondary" onClick={handleRemove}>Remove</button>
                         </div>
                     </div>
                 </div>
@@ -61,7 +66,6 @@ export default function CardListBookMark({user}) {
     const [bookmarked, setBookmarked] = useState([]);
     let userID = user.uid;
     useEffect(() => {
-        
         let isMounted = true;
         let userRef = firebase.database().ref(userID);// like the url
         userRef.on('value', (snapshot) => {
@@ -82,9 +86,9 @@ export default function CardListBookMark({user}) {
           
         })
         return () => { isMounted = false }; 
-        
-      }, [userID])
-      if(bookmarked.length === 0) return null;
+    }, [userID])
+      
+    if(bookmarked.length === 0) return null;
 
       
     
@@ -92,7 +96,7 @@ export default function CardListBookMark({user}) {
     
     let cards = [];
     cards = bookmarked.map((resort) => {
-        return <CardBookmark resort={resort} key={resort.resort_name}/>
+        return <CardBookmark resort={resort} key={resort.resort_name} user={user}/>
     })
 
     return (

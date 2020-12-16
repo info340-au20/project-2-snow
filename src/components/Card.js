@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as bookmarkSolid} from '@fortawesome/free-solid-svg-icons';
+import { faBookmark as bookmarkReg } from '@fortawesome/free-regular-svg-icons';
 
 import firebase from 'firebase/app';
 //import React, { useEffect } from 'react';
@@ -12,21 +13,35 @@ function ResortCard({resort, user}) {
         setIsOpen(!isOpen);
     }
 
-    let content = null;
-    const handleBookmark = (event) => {
-        event.preventDefault();
-        if (!user) {
-            console.log("is not logged in");
-            content = (
-                <h3>you have to sign in</h3>
-            );
-        } else {
-            // reference into the database
-            const userRef = firebase.database().ref(user.uid);
-            userRef.push(resort);
+    let mark = null;
+    const [isBookmarked, setIsBookmarked] = useState(false);
+    if (user) {
+        const handleBookmark = (event) => {
+            event.preventDefault();
+            if(!isBookmarked) {
+                // reference into the database
+                const userRef = firebase.database().ref(user.uid);
+                userRef.push(resort);
+                setIsBookmarked(true);
+            } else {
+                let resortKey = resort.key;
+                let userRef = firebase.database().ref(user.uid).child(resortKey);
+                userRef.remove();
+                setIsBookmarked(false);
+            }
+            
         }
+        if (!isBookmarked) {
+            mark = (
+                <button className="bookmarkButton" type="button" aria-label="bookmark" onClick={handleBookmark}><FontAwesomeIcon icon={bookmarkReg} /></button>
+            )
+        } else {
+            mark = (
+                <button className="bookmarkButton" type="button" aria-label="bookmark" onClick={handleBookmark}><FontAwesomeIcon icon={bookmarkSolid} /></button>
+            )
+        }
+        
     }
-    
 
     return (
         <div className="column col-md-6 col-xl-3">
@@ -39,8 +54,7 @@ function ResortCard({resort, user}) {
                         <div className="col-sm">
                             <dt className="card-text">{resort.resort_name}</dt>
                             <div className="card-text">{resort.state}</div>
-                            <button className="bookmarkButton" type="button" aria-label="bookmark" onClick={handleBookmark}><FontAwesomeIcon icon={faBookmark} /></button>
-                            {content}
+                            {mark}
                         </div>
                     </div>
                 </div>
