@@ -5,12 +5,21 @@ import firebase from 'firebase/app';
 import { Collapse, Button, CardBody, Card } from 'reactstrap'
 import React, { useState } from 'react';
 
+import { Redirect } from 'react-router-dom';
 function ResortCard({resort, user}) {
     const [isOpen, setIsOpen] = useState(false);
     const handleToggle = () => {
         setIsOpen(!isOpen);
     }
 
+    const [redirectTo, setRedirectTo] = useState(undefined);
+    const handleInfo = () => {
+        console.log("You clicked on", resort.resort_name);
+        setRedirectTo(resort.resort_name);
+    }
+    if (redirectTo !== undefined){
+        return <Redirect push to={"/info/" + redirectTo} />;
+    }
     let mark = null;
     if (user) {
         const handleBookmark = (event) => {
@@ -29,7 +38,7 @@ function ResortCard({resort, user}) {
             <div className="card mb-4 shadow-sm">
                 <div className="card-body">
                     <div className="row">
-                        <div className="col-sm-auto">
+                        <div className="col-sm-auto clickable" onClick={handleInfo}>
                             < img className="pb-3" src={resort.img} alt={resort.resort_name} title={resort.resort_name}></img>
                         </div>
                         <div className="col-sm">

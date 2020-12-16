@@ -8,7 +8,7 @@ export function AboutPageHeader() {
         <br></br>
       </div>
     )
-  }
+}
 
 export function About() {
     return (

@@ -204,6 +204,10 @@ footer {
     position: relative;
 }
 
+/* Hover mouse on cliclable*/
+.clickable {
+    cursor: pointer;
+}
 
 /* Media Control screen larger than 320px */ 
 @media (min-width: 320px)

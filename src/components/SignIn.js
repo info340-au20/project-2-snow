@@ -33,15 +33,14 @@ export function SignInPageHeader({ user, dataLoading }) {
         firebase.auth().signOut();
     }
 
-    console.log(dataLoading);
-      // display toggle when loading
-      if(dataLoading) {
-        return(
-            <div className="text-center">
-                <i className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></i>
-            </div>
-        )
-      }
+    // display toggle when loading
+    if(dataLoading) {
+      return(
+        <div className="text-center">
+            <i className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></i>
+        </div>
+      )
+    }
       
     let content = null;
     if (!user) { // if logged out, show signup form
