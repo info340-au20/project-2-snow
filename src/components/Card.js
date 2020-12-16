@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark as bookmarkSolid} from '@fortawesome/free-solid-svg-icons';
-import { faBookmark as bookmarkReg } from '@fortawesome/free-regular-svg-icons';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons'
 
 import firebase from 'firebase/app';
 //import React, { useEffect } from 'react';
@@ -14,33 +13,16 @@ function ResortCard({resort, user}) {
     }
 
     let mark = null;
-    const [isBookmarked, setIsBookmarked] = useState(false);
     if (user) {
         const handleBookmark = (event) => {
-            event.preventDefault();
-            if(!isBookmarked) {
-                // reference into the database
-                const userRef = firebase.database().ref(user.uid);
-                userRef.push(resort);
-                setIsBookmarked(true);
-            } else {
-                let resortKey = resort.key;
-                let userRef = firebase.database().ref(user.uid).child(resortKey);
-                userRef.remove();
-                setIsBookmarked(false);
-            }
-            
-        }
-        if (!isBookmarked) {
-            mark = (
-                <button className="bookmarkButton" type="button" aria-label="bookmark" onClick={handleBookmark}><FontAwesomeIcon icon={bookmarkReg} /></button>
-            )
-        } else {
-            mark = (
-                <button className="bookmarkButton" type="button" aria-label="bookmark" onClick={handleBookmark}><FontAwesomeIcon icon={bookmarkSolid} /></button>
-            )
-        }
-        
+        event.preventDefault();
+        // reference into the database
+        const userRef = firebase.database().ref(user.uid);
+        userRef.push(resort);
+    }
+        mark = (
+            <button className="bookmarkButton" type="button" aria-label="bookmark" onClick={handleBookmark}><FontAwesomeIcon icon={faBookmark} /></button>
+        )
     }
 
     return (

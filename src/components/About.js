@@ -1,3 +1,4 @@
+// About page
 export function AboutPageHeader() {
     return (
       <div className="header-img">

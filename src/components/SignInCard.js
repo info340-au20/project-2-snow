@@ -90,13 +90,10 @@ export default function CardListBookMark({user}) {
       
     if(bookmarked.length === 0) return null;
 
-      
-    
-    
     
     let cards = [];
     cards = bookmarked.map((resort) => {
-        return <CardBookmark resort={resort} key={resort.resort_name} user={user}/>
+        return <CardBookmark resort={resort} key={resort.key} user={user}/>
     })
 
     return (
