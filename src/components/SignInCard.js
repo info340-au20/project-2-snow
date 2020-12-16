@@ -61,28 +61,37 @@ export default function CardListBookMark({user}) {
     const [bookmarked, setBookmarked] = useState([]);
     let userID = user.uid;
     useEffect(() => {
+        
         let isMounted = true;
-        const userRef = firebase.database().ref(userID);// like the url
+        let userRef = firebase.database().ref(userID);// like the url
         userRef.on('value', (snapshot) => {
           const theResortsObj = snapshot.val(); // convert into a JS value
           // have an object (with keys)
           // need an array
-          let objectKeysArray = Object.keys(theResortsObj)
-          let resortsArray = objectKeysArray.map((key) => {
-            let singleChirpObj = theResortsObj[key]
-            singleChirpObj.key = key
-            return singleChirpObj
-          })
-          if (isMounted) {
-            setBookmarked(resortsArray);
+          if (theResortsObj != null) {
+            let objectKeysArray = Object.keys(theResortsObj)
+            let resortsArray = objectKeysArray.map((key) => {
+                let singleChirpObj = theResortsObj[key]
+                singleChirpObj.key = key
+                return singleChirpObj
+            })
+            if (isMounted) {
+                setBookmarked(resortsArray);
+            }
           }
+          
         })
         return () => { isMounted = false }; 
-      }, [])
-    
-    if(bookmarked.length === 0) return null;
+        
+      }, [userID])
+      if(bookmarked.length === 0) return null;
 
-    let cards = bookmarked.map((resort) => {
+      
+    
+    
+    
+    let cards = [];
+    cards = bookmarked.map((resort) => {
         return <CardBookmark resort={resort} key={resort.resort_name}/>
     })
 

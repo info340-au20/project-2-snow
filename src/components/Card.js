@@ -14,7 +14,7 @@ function ResortCard({resort, user}) {
 
     let content = null;
     const handleBookmark = (event) => {
-        event.prevetDefault();
+        event.preventDefault();
         if (!user) {
             console.log("is not logged in");
             content = (
