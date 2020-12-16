@@ -66,7 +66,6 @@ export default function CardListBookMark({user}) {
     const [bookmarked, setBookmarked] = useState([]);
     let userID = user.uid;
     useEffect(() => {
-        let isMounted = true;
         let userRef = firebase.database().ref(userID);// like the url
         userRef.on('value', (snapshot) => {
           const theResortsObj = snapshot.val(); // convert into a JS value
@@ -79,13 +78,13 @@ export default function CardListBookMark({user}) {
                 singleChirpObj.key = key
                 return singleChirpObj
             })
-            if (isMounted) {
                 setBookmarked(resortsArray);
-            }
+          } else {
+            setBookmarked([]);
           }
           
         })
-        return () => { isMounted = false }; 
+        return () => { userRef.off() }; 
     }, [userID])
       
     if(bookmarked.length === 0) return null;

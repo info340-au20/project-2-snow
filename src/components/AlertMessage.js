@@ -1,11 +1,11 @@
-export function AlertMessage({alert, isLoading}) {
+export function AlertMessage({alert, dataLoading}) {
     // display toggle when loading
-    if(isLoading) {
-    return(
-        <div className="text-center">
-        <i className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></i>
-        </div>
-    )
+    if(dataLoading) {
+        return(
+            <div className="text-center">
+                <i className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></i>
+            </div>
+        )
     }
     return (
     <div>

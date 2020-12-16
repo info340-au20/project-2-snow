@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark } from '@fortawesome/free-solid-svg-icons'
 
 import firebase from 'firebase/app';
-//import React, { useEffect } from 'react';
 import { Collapse, Button, CardBody, Card } from 'reactstrap'
 import React, { useState } from 'react';
 

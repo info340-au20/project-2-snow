@@ -21,18 +21,20 @@ export default function App() {
   const [resorts, setResorts] = useState([]); // for display data
   const [store, setStore] = useState([]); // for reset data
   const [user, setUser] = useState(undefined); // for firebase
-  const [isLoading, setIsLoading] = useState(true); // for toggle
-
+  const [dataLoading, setdataLoading] = useState(true); // for toggle
+  //const [isLoading, setisLoading] = useState(true); // for toggle
   // auth state event listener
   useEffect(() => { // run after component loads
     // listen for changes to the authstate (logged in or not)
     const authUnregisterFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
-        setIsLoading(false);
+        setdataLoading(false);
+        //setisLoading(false);
       } else { // not defined
         setUser(null);
-        setIsLoading(false);
+        setdataLoading(false);
+        //setisLoading(false);
       }
     })
 
@@ -67,16 +69,16 @@ export default function App() {
         </nav>
         <Route exact path="/" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
         <Route path="/about" component={AboutPageHeader} />
-        <Route path="/signIn" component={() => <SignInPageHeader user={user}/>} />
+        <Route path="/signIn" component={() => <SignInPageHeader user={user} dataLoading={dataLoading} />}  />
         <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
       </header>
       
       {/* display main content */}
       <main>
-        <Route exact path="/" component={() => <Main resorts={resorts} user={user} isLoading={isLoading} setIsLoading={setIsLoading} />} />
+        <Route exact path="/" component={() => <Main resorts={resorts} user={user} dataLoading={dataLoading} />} />
         <Route path="/about" component={About} />
-        <Route path="/signIn" component={() => <SignIn user={user} resorts={resorts} />} />
-        <Route path="/index.html" component={() => <Main resorts={resorts} user={user} isLoading={isLoading} setIsLoading={setIsLoading} />} />
+        <Route path="/signIn" component={() => <SignIn user={user} resorts={resorts} dataLoading={dataLoading}/>} />
+        <Route path="/index.html" component={() => <Main resorts={resorts} user={user} dataLoading={dataLoading} />} />
       </main>
 
       <Footer />

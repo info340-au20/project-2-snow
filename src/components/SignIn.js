@@ -4,8 +4,7 @@ import 'firebase/auth';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import CardListBookMark from './SignInCard'
 
-
-export function SignInPageHeader({ user }) {
+export function SignInPageHeader({ user, dataLoading }) {
     const [errorMessage, setErrorMessage] = useState(undefined);
     //FirebaseUI config
     const uiConfig = {
@@ -30,19 +29,28 @@ export function SignInPageHeader({ user }) {
 
     //A callback function for logging out the current user
     const handleSignOut = () => {
-        setErrorMessage(null); //clear any old errors
+        setErrorMessage(null); // clear any old errors
         firebase.auth().signOut();
     }
 
+    console.log(dataLoading);
+      // display toggle when loading
+      if(dataLoading) {
+        return(
+            <div className="text-center">
+                <i className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></i>
+            </div>
+        )
+      }
+      
     let content = null;
-
-    if (!user) { //if logged out, show signup form
+    if (!user) { // if logged out, show signup form
         content = (
           <div className="container">
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
           </div>
         );
-    } else { //if logged in, show welcome message
+    } else { // if logged in, show welcome message
         content = (
           <div className="logout">
             {user &&
@@ -71,7 +79,16 @@ export function SignInPageHeader({ user }) {
     )
   }
 
-export function SignIn({ user }) {
+export function SignIn({ user , dataLoading}) {
+  //console.log(dataLoading);
+  // display toggle when loading
+  if(dataLoading) {
+    return(
+        <div className="text-center">
+            <i className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></i>
+        </div>
+    )
+  }
     let content = null;
 
     if (user) { //if logged out, show signup form
