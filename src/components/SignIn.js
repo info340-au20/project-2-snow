@@ -1,7 +1,10 @@
+// React
 import React, { useState } from 'react';
+// Firebase
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+// Component
 import CardListBookMark from './SignInCard'
 
 export function SignInPageHeader({ user, dataLoading }) {

@@ -1,6 +1,6 @@
 // React 
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 // data
 import { csv } from 'd3';
 import datacsv from './resorts.csv';
@@ -15,8 +15,8 @@ import { SignIn, SignInPageHeader } from './components/SignIn';
 import { NavOption } from './components/NavOption';
 import { MainPageHeader } from './components/MainPageHeader';
 import { Main } from './components/Main';
-import { InfoPageHeader } from './components/InfoPageHeader';
 import Footer from './components/Footer';
+import { InfoPageHeader, InfoPage } from './components/InfoPageHeader';
 
 export default function App() {
   const [resorts, setResorts] = useState([]); // for display data
@@ -59,32 +59,28 @@ export default function App() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <a className="navbar-brand" href="index.html">
-            <img className="logo" src="logo.png" alt="Website Logo"></img> 
+            < img className="logo" src="logo.png" alt="Website Logo"></img> 
             {' '}SkiUS
-          </a>
+          </a >
           <NavOption />
         {/* nav bar options */}
         </nav>
-        <Switch>
           <Route exact path="/" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
           <Route path="/about" component={AboutPageHeader} />
           <Route path="/signIn" component={() => <SignInPageHeader user={user} dataLoading={dataLoading} />}  />
-          <Route path="/info/:resort_name" component={() => <InfoPageHeader resorts={resorts} />} />
+          <Route path="/info/:resort_name" component={() => <InfoPageHeader />} />
           <Redirect to="/"></Redirect>
-        </Switch>
       </header>
       
       {/* display main content */}
       <main>
-        <Switch>
           <Route exact path="/" component={() => <Main resorts={resorts} user={user} dataLoading={dataLoading} />} />
           <Route path="/about" component={About} />
           <Route path="/signIn" component={() => <SignIn user={user} resorts={resorts} dataLoading={dataLoading}/>} />
           <Route path="/index.html" component={() => <Main resorts={resorts} user={user} dataLoading={dataLoading} />} />
           <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
-          <Route path="/info/:resort_name" component={() => <InfoPageHeader resorts={resorts} />} />
+          <Route exact path="/info/:resort_name" component={() => <InfoPage resorts={resorts} />} />
           <Redirect to="/"></Redirect>
-        </Switch>
       </main>
 
       <Footer />

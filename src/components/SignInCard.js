@@ -20,7 +20,7 @@ function CardBookmark({resort, user}) {
                 <div className="card-body">
                     <div className="row">
                         <div className="col-sm-auto">
-                            < img className="pb-3" src={resort.img} alt={resort.resort_name} title={resort.resort_name}></img>
+                            <img className="pb-3" src={resort.img} alt={resort.resort_name} title={resort.resort_name}></img>
                         </div>
                         <div className="col-sm">
                             <dt className="card-text">{resort.resort_name}</dt>
