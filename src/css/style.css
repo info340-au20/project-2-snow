@@ -208,6 +208,54 @@ footer {
 .clickable {
     cursor: pointer;
 }
+/* Detail Page */
+.text {
+    font-style: italic;
+    font-family: serif;
+    font-size: 20px;
+}
+
+.detailResort {
+ padding-top: 3rem;
+ padding-bottom: 3rem;
+}
+
+.detailResort .text-container {
+ margin-bottom: 3rem;
+}
+
+.detailResort h2 {
+ margin-bottom: 1.375rem;
+}
+
+/* Hover Animation */
+.detailResort .image-container {
+ overflow: hidden;
+ border-radius: 0.25rem;
+}
+
+.detailResort .image-container img {
+ margin: 0;
+ border-radius: 0.25rem;
+ transition: all 0.3s;
+}
+
+.detailResort .image-container:hover img {
+ -moz-transform: scale(1.15);
+ -webkit-transform: scale(1.15);
+ transform: scale(1.15);
+} 
+/* end of hover animation */
+
+/* detail page text */
+.detailResort .text-container {
+    margin-bottom: 0;
+}
+
+
+.text-container h2 {
+    font-family: 'Lobster', cursive;
+}
 
 /* Media Control screen larger than 320px */ 
 @media (min-width: 320px)

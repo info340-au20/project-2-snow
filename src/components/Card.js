@@ -14,7 +14,6 @@ function ResortCard({resort, user}) {
 
     const [redirectTo, setRedirectTo] = useState(undefined);
     const handleInfo = () => {
-        console.log("You clicked on", resort.resort_name);
         setRedirectTo(resort.resort_name);
     }
     if (redirectTo !== undefined){

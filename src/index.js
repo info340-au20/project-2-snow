@@ -1,6 +1,7 @@
+// React 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+//sytle
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../node_modules/font-awesome/css/font-awesome.min.css'; 
@@ -9,6 +10,8 @@ import { BrowserRouter } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth'; // get everything from this library
 import 'firebase/database';
+// components
+import App from './App';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
