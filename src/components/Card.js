@@ -1,22 +1,26 @@
+// React
+import React, { useState } from 'react';
+import { Collapse, Button, CardBody, Card } from 'reactstrap'
+import { Redirect } from 'react-router-dom';
+// fa
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark } from '@fortawesome/free-solid-svg-icons'
-
+// Firebase 
 import firebase from 'firebase/app';
-import { Collapse, Button, CardBody, Card } from 'reactstrap'
-import React, { useState } from 'react';
 
-import { Redirect } from 'react-router-dom';
 function ResortCard({resort, user}) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false); // button use state
+    // a callback to handle display button
     const handleToggle = () => {
         setIsOpen(!isOpen);
     }
 
-    const [redirectTo, setRedirectTo] = useState(undefined);
+    const [redirectTo, setRedirectTo] = useState(undefined); // path param use state
+    // a callback for detail page
     const handleInfo = () => {
         setRedirectTo(resort.resort_name);
     }
-    if (redirectTo !== undefined){
+    if (redirectTo !== undefined){ // if resort is defined
         return <Redirect push to={"/info/" + redirectTo} />;
     }
     let mark = null;
@@ -33,12 +37,13 @@ function ResortCard({resort, user}) {
     }
 
     return (
+        // Card body
         <div className="column col-md-6 col-xl-3">
             <div className="card mb-4 shadow-sm">
                 <div className="card-body">
                     <div className="row">
-                        <div className="col-sm-auto clickable" onClick={handleInfo}>
-                            < img className="pb-3" src={resort.img} alt={resort.resort_name} title={resort.resort_name}></img>
+                        <div className="col-sm-auto clickable" onClick={handleInfo}> {/* make image clickable to the detail page */}
+                            <img className="pb-3" src={resort.img} alt={resort.resort_name} title={resort.resort_name}></img>
                         </div>
                         <div className="col-sm">
                             <dt className="card-text">{resort.resort_name}</dt>
@@ -47,7 +52,8 @@ function ResortCard({resort, user}) {
                         </div>
                     </div>
                 </div>
-                <Button color="secondary" onClick={handleToggle} style={{ marginBottom: '1rem' }}>Display Info ⇩</Button>
+                {/* drop down button */}
+                <Button color="secondary" onClick={handleToggle} aria-label="dropdown">Display Info ⇩</Button>
                 <Collapse isOpen={isOpen}>
                     <Card>
                         <CardBody>
@@ -80,6 +86,7 @@ function ResortCard({resort, user}) {
     )
 }
 
+// render card list
 export default function CardList({resorts, user}) {
     let cards = resorts.map((resort) => {
         return <ResortCard resort={resort} key={resort.resort_name} user={user} />

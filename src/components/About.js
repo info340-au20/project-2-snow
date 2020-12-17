@@ -1,4 +1,4 @@
-// About page
+// About page Header
 export function AboutPageHeader() {
     return (
       <div className="header-img">
@@ -10,6 +10,7 @@ export function AboutPageHeader() {
     )
 }
 
+// render About content
 export function About() {
     return (
         <div>

@@ -1,13 +1,17 @@
+// React
 import React, { useState, useEffect } from 'react';
+import { Collapse, Button, CardBody, Card } from 'reactstrap'
+// Firebase
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Collapse, Button, CardBody, Card } from 'reactstrap'
 
 function CardBookmark({resort, user}) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false); // button use state
+    // a callback to handle display button
     const handleToggle = () => {
         setIsOpen(!isOpen);
     }
+    // a callback to hangle remove
     const handleRemove = () => {
         let resortKey = resort.key;
         let userRef = firebase.database().ref(user.uid).child(resortKey);
@@ -15,6 +19,7 @@ function CardBookmark({resort, user}) {
     }
 
     return (
+        // Card body
         <div className="column col-md-6 col-xl-3">
             <div className="card mb-4 shadow-sm">
                 <div className="card-body">
@@ -25,11 +30,12 @@ function CardBookmark({resort, user}) {
                         <div className="col-sm">
                             <dt className="card-text">{resort.resort_name}</dt>
                             <div className="card-text">{resort.state}</div>
-                            <button className="btn btn-secondary" onClick={handleRemove}>Remove</button>
+                            <button className="btn btn-secondary" aria-label="remove" onClick={handleRemove}>Remove</button>
                         </div>
                     </div>
                 </div>
-                <Button color="secondary" onClick={handleToggle} style={{ marginBottom: '1rem' }}>Display Info ⇩</Button>
+                {/* drop down button */}
+                <Button color="secondary" aria-label="dropdown" onClick={handleToggle}>Display Info ⇩</Button>
                 <Collapse isOpen={isOpen}>
                     <Card>
                         <CardBody>
@@ -65,6 +71,7 @@ function CardBookmark({resort, user}) {
 export default function CardListBookMark({user}) {
     const [bookmarked, setBookmarked] = useState([]);
     let userID = user.uid;
+    // detect change in realtime database
     useEffect(() => {
         let userRef = firebase.database().ref(userID);// like the url
         userRef.on('value', (snapshot) => {
@@ -79,11 +86,12 @@ export default function CardListBookMark({user}) {
                 return singleChirpObj
             })
                 setBookmarked(resortsArray);
-          } else {
+          } else { // no bookmarked
             setBookmarked([]);
           }
           
         })
+        // turn off callback
         return () => { userRef.off() }; 
     }, [userID])
       

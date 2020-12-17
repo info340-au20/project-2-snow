@@ -1,5 +1,6 @@
-// components
+// React
 import React from 'react';
+// components
 import CardList from './Card';
 import { AlertMessage } from './AlertMessage';
 

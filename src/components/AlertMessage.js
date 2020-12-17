@@ -3,7 +3,7 @@ export function AlertMessage({alert, dataLoading}) {
     if(dataLoading) {
         return(
             <div className="text-center">
-                <i className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></i>
+                <div className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></div>
             </div>
         )
     }
