@@ -3,7 +3,6 @@ import React from 'react';
 import {useParams} from 'react-router-dom'
 // lodash
 import _ from 'lodash';
-
 // render Info page header
 export function InfoPageHeader() {
   return (
@@ -16,11 +15,19 @@ export function InfoPageHeader() {
 }
 
 //render Info page content
-export function InfoPage({resorts}) {
+export function InfoPage({resorts, dataLoading}) {
   let resortName = '';
   const urlParams = useParams();
   resortName = urlParams.resort_name;
 
+    // display toggle when loading
+    if(dataLoading) {
+      return(
+          <div className="text-center">
+              <div className="fa fa-spinner fa-spin fa-3x" aria-label="connecting..."></div>
+          </div>
+      )
+  }
   // find the resort with the correct name in data
   let resort =  _.find(resorts, {resort_name: resortName});
   if(!resort) return <h2>No resort specified</h2> //if unspecified

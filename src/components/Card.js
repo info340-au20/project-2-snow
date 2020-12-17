@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark } from '@fortawesome/free-solid-svg-icons'
 // Firebase 
-import firebase from 'firebase/app';
+import firebase from 'firebase/app'
 
 function ResortCard({resort, user}) {
     const [isOpen, setIsOpen] = useState(false); // button use state
@@ -32,7 +32,7 @@ function ResortCard({resort, user}) {
         userRef.push(resort);
     }
         mark = (
-            <button className="bookmarkButton" type="button" aria-label="bookmark" onClick={handleBookmark}><FontAwesomeIcon icon={faBookmark} /></button>
+            <button className="bookmarkButton" type="button" aria-label="bookmark" onClick={handleBookmark}><FontAwesomeIcon icon={faBookmark} aria-label="bookmark" /></button>
         )
     }
 

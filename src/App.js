@@ -19,8 +19,8 @@ import { InfoPageHeader, InfoPage } from './components/InfoPageHeader';
 import Footer from './components/Footer';
 
 export default function App() {
-  const [resorts, setResorts] = useState([]); // for display data
   const [store, setStore] = useState([]); // for reset data
+  const [resorts, setResorts] = useState(store); // for display data
   const [user, setUser] = useState(undefined); // for firebase
   const [dataLoading, setdataLoading] = useState(true); // for toggle
   // auth state event listener
@@ -59,7 +59,7 @@ export default function App() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <a className="navbar-brand" href="/">
-            < img className="logo" src="logo.png" alt="Website Logo"></img> 
+            <img className="logo" src="../logo.png" alt="Website Logo"></img> 
             {' '}SkiUS
           </a >
           <NavOption />
@@ -82,7 +82,7 @@ export default function App() {
           <Route path="/signIn" component={() => <SignIn user={user} resorts={resorts} dataLoading={dataLoading}/>} />
           <Route path="/index.html" component={() => <Main resorts={resorts} user={user} dataLoading={dataLoading} />} />
           <Route exact path="/index.html" component={() => <MainPageHeader resorts={resorts} setResorts={setResorts} store={store}/>} />
-          <Route path="/info/:resort_name" component={() => <InfoPage resorts={resorts} />} />
+          <Route path="/info/:resort_name" component={() => <InfoPage resorts={resorts} dataLoading={dataLoading} />} />
           <Redirect to="/"></Redirect>
         </Switch>
       </main>

@@ -6,7 +6,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 export function Search({resorts, setResorts, store}) {
     const [searchValue, setSearchValue] = useState(""); // search input use state
-  
     // a callback to get search input
     const handleChange = event => {
       setSearchValue(event.target.value)
@@ -34,7 +33,7 @@ export function Search({resorts, setResorts, store}) {
           value={searchValue}
           onChange={handleChange}>
         </input>
-        <button className="searchButton" type="submit" aria-label="Search"><FontAwesomeIcon icon={faSearch} /></button>
+        <button className="searchButton" type="submit" aria-label="Search"><FontAwesomeIcon icon={faSearch} aria-label="Search" /></button>
       </form>
     )
   }
