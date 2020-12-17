@@ -20,7 +20,7 @@ import Footer from './components/Footer';
 
 export default function App() {
   const [store, setStore] = useState([]); // for reset data
-  const [resorts, setResorts] = useState(store); // for display data
+  const [resorts, setResorts] = useState([]); // for display data
   const [user, setUser] = useState(undefined); // for firebase
   const [dataLoading, setdataLoading] = useState(true); // for toggle
   // auth state event listener
@@ -30,21 +30,18 @@ export default function App() {
       if (firebaseUser) {
         setUser(firebaseUser);
         setdataLoading(false);
+        setResorts(store);
       } else { // not defined
         setUser(null);
         setdataLoading(false);
+        setResorts(store);
       }
     })
 
     return function cleanup() { // what to do when done loading
       authUnregisterFunction()
     }
-  }, []) // only run hook on first load
-
-  // load data
-  useEffect(() => {
-    csv(datacsv).then(setResorts);
-  }, []);
+  }, [store])
 
   // store data
   useEffect(() => {
