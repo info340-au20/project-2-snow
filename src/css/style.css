@@ -243,6 +243,10 @@ footer {
     font-family: 'Lobster', cursive;
 }
 
+.pb-3 {
+    padding-right: 11px;
+}
+
 /* Media Control screen larger than 320px */ 
 @media (min-width: 320px)
 {
